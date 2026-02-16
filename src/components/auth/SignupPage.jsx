@@ -112,7 +112,7 @@ const SignupPage = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: 'http://localhost:5173/login',
+          emailRedirectTo: window.location.origin + '/login',
           data: {
             full_name: formData.fullName,
             business_name: formData.businessName,
