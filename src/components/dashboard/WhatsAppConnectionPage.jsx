@@ -113,8 +113,6 @@ const WhatsAppConnectionPage = () => {
         if (data.pairing_code || data.code) {
             setPairingCode(data.pairing_code || data.code);
             setConnectionStatus('connecting'); 
-            // Note: Phone flow mein hum 'validateConnection' call nahi kar rahe abhi.
-            // User code daalega aur jab connect ho jayega to wo manually page refresh karega ya close karega.
         } else {
             setError('Could not generate pairing code. Please try again.');
         }
@@ -140,7 +138,7 @@ const WhatsAppConnectionPage = () => {
             setQrCode(cleanQR);
             setConnectionStatus('connecting');
             
-            // Start the Long Polling Check (Wait Logic) because n8n waits for scan
+            // Start the Long Polling Check
             startValidationProcess(); 
         } else {
             setError('Could not fetch QR code. Please check your internet.');
@@ -160,7 +158,6 @@ const WhatsAppConnectionPage = () => {
   // ==============================
   const startValidationProcess = async () => {
     try {
-      // Ye request n8n par jayegi aur wahan wait karegi (15s/1min logic)
       const response = await fetch(N8N_WEBHOOKS.validateConnection, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -183,10 +180,8 @@ const WhatsAppConnectionPage = () => {
         setError('❌ Access Denied: The number you connected does not match your registered Service Number.');
       } 
       else {
-        // Agar timeout ho jaye ya koi aur issue (User ne scan nahi kiya)
         setConnectionStatus('disconnected');
         setQrCode(null);
-        // Silent fail or message, user can click generate again
       }
 
     } catch (err) {
@@ -302,12 +297,9 @@ const WhatsAppConnectionPage = () => {
               </button>
             </div>
 
-            {/* -------------------------------------------------- */}
-            {/* OPTION 1: QR CODE FLOW (Detailed Instructions)     */}
-            {/* -------------------------------------------------- */}
+            {/* OPTION 1: QR CODE FLOW */}
             {connectionMethod === 'qr' && !qrCode && (
                <div>
-                 {/* Instructions Card */}
                  <div className="bg-[#070A0A] rounded-[14px] p-6 mb-6 border border-[#1A2321]">
                   <h3 className="font-semibold mb-4 text-[#F2F5F4]">How to connect:</h3>
                   <ol className="space-y-4 text-sm text-[#A7B0AD]">
@@ -336,21 +328,26 @@ const WhatsAppConnectionPage = () => {
                </div>
             )}
             
-            {/* QR Generated State */}
+            {/* ✅ UPDATED: QR GENERATED STATE (FIXED ALIGNMENT) */}
             {connectionMethod === 'qr' && qrCode && (
-              <div className="text-center animate-in fade-in zoom-in duration-300">
-                 <h2 className="text-2xl font-bold mb-4">Scan QR Code</h2>
-                 <div className="bg-white p-4 rounded-[18px] inline-block mb-4 shadow-2xl shadow-[#38F28D]/10">
+              <div className="flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-300">
+                 <h2 className="text-2xl font-bold mb-6">Scan QR Code</h2>
+                 
+                 {/* QR Box Middle Alignment */}
+                 <div className="bg-white p-4 rounded-[18px] inline-flex items-center justify-center shadow-2xl shadow-[#38F28D]/10">
                     <img src={`data:image/png;base64,${qrCode}`} alt="QR" className="w-64 h-64" />
                  </div>
-                 <p className="text-yellow-500/80 bg-yellow-500/10 px-3 py-1 rounded-full inline-block mb-4">⚠️ Scan within 1 minute</p>
-                 <button onClick={() => { setQrCode(null); setConnectionStatus('disconnected'); }} className="block mx-auto text-[#A7B0AD] underline hover:text-white">Cancel</button>
+                 
+                 {/* Warning Text Exactly Underneath */}
+                 <div className="mt-6 flex items-center gap-2 text-yellow-500 bg-yellow-500/10 px-4 py-2 rounded-full border border-yellow-500/20">
+                    <span className="text-sm font-medium">⚠️ Scan within 1 minute</span>
+                 </div>
+                 
+                 <button onClick={() => { setQrCode(null); setConnectionStatus('disconnected'); }} className="mt-6 text-[#A7B0AD] underline hover:text-white">Cancel</button>
               </div>
             )}
 
-            {/* -------------------------------------------------- */}
-            {/* OPTION 2: PHONE NUMBER FLOW                        */}
-            {/* -------------------------------------------------- */}
+            {/* OPTION 2: PHONE NUMBER FLOW */}
             {connectionMethod === 'phone' && !pairingCode && (
               <form onSubmit={initiateConnection}>
                 <div className="mb-6">
@@ -361,42 +358,34 @@ const WhatsAppConnectionPage = () => {
                         className="w-full bg-[#070A0A] border border-[#1A2321] rounded-[14px] pl-12 pr-4 py-4 text-lg focus:border-[#38F28D] focus:outline-none focus:ring-1 focus:ring-[#38F28D] transition-all"
                         placeholder="e.g. 923001234567" required />
                   </div>
-                  <p className="text-xs text-[#A7B0AD] mt-2 ml-1">Enter number with country code (e.g., 92...)</p>
                 </div>
-                <button type="submit" disabled={loading} className="w-full bg-[#38F28D] text-[#070A0A] py-4 rounded-[14px] font-bold hover:scale-[1.02] disabled:opacity-50 transition-all shadow-[0_0_20px_rgba(56,242,141,0.2)]">
+                <button type="submit" disabled={loading} className="w-full bg-[#38F28D] text-[#070A0A] py-4 rounded-[14px] font-bold hover:scale-[1.02] disabled:opacity-50 transition-all">
                   {loading ? 'Getting Code...' : 'Get Pairing Code'}
                 </button>
               </form>
             )}
 
-            {/* ✅ PAIRING CODE DISPLAY (No Timer, Close Button) */}
+            {/* PAIRING CODE DISPLAY */}
             {connectionMethod === 'phone' && pairingCode && (
-               <div className="relative text-center bg-[#070A0A] border border-[#1A2321] rounded-[18px] p-8 animate-in fade-in slide-in-from-bottom-4">
-                  {/* CLOSE BUTTON (Top Right) */}
+               <div className="relative text-center bg-[#070A0A] border border-[#1A2321] rounded-[18px] p-8">
                   <button 
                     onClick={() => { setPairingCode(null); setConnectionStatus('disconnected'); }}
-                    className="absolute top-4 right-4 text-[#A7B0AD] hover:text-white bg-[#1A2321] hover:bg-red-500/20 w-8 h-8 rounded-full flex items-center justify-center transition-colors"
-                    title="Close and Reset"
+                    className="absolute top-4 right-4 text-[#A7B0AD] hover:text-white bg-[#1A2321] w-8 h-8 rounded-full flex items-center justify-center"
                   >
                     ✕
                   </button>
-
-                  <h3 className="text-[#A7B0AD] mb-6 font-medium">Enter this code on your phone</h3>
-                  
-                  {/* The Code Display */}
-                  <div className="flex justify-center items-center gap-2 mb-8">
+                  <h3 className="text-[#A7B0AD] mb-8">Enter this code on your phone</h3>
+                  <div className="flex justify-center gap-2 mb-8">
                      {String(pairingCode).split('').map((char, index) => (
-                        <div key={index} className="w-12 h-16 flex items-center justify-center bg-[#1A2321] rounded-lg text-3xl font-mono text-[#38F28D] border border-[#38F28D]/20 shadow-[0_0_15px_rgba(56,242,141,0.1)]">
+                        <div key={index} className="w-12 h-16 flex items-center justify-center bg-[#1A2321] rounded-lg text-3xl font-mono text-[#38F28D] border border-[#38F28D]/20">
                            {char}
                         </div>
                      ))}
                   </div>
-
-                  {/* Instructions for Phone */}
-                  <div className="text-left bg-[#1A2321]/50 p-6 rounded-[14px] text-sm text-[#A7B0AD] space-y-3 border border-[#1A2321]">
-                     <p className="flex items-center gap-3"><span className="w-5 h-5 bg-[#38F28D] text-black rounded-full flex items-center justify-center text-xs font-bold">1</span> Open WhatsApp notification or settings.</p>
-                     <p className="flex items-center gap-3"><span className="w-5 h-5 bg-[#38F28D] text-black rounded-full flex items-center justify-center text-xs font-bold">2</span> Tap on <strong>"Enter Pairing Code"</strong>.</p>
-                     <p className="flex items-center gap-3"><span className="w-5 h-5 bg-[#38F28D] text-black rounded-full flex items-center justify-center text-xs font-bold">3</span> Type the code exactly as shown above.</p>
+                  <div className="text-left bg-[#1A2321]/50 p-6 rounded-[14px] text-sm text-[#A7B0AD] space-y-3">
+                     <p>1. Open WhatsApp notification.</p>
+                     <p>2. Tap "Enter Pairing Code".</p>
+                     <p>3. Type the code shown above.</p>
                   </div>
                </div>
             )}
@@ -411,12 +400,12 @@ const WhatsAppConnectionPage = () => {
         <div className="bg-[#0D1211] border border-[#1A2321] rounded-[14px] p-6 hover:border-[#38F28D]/20 transition-colors">
           <div className="w-10 h-10 bg-[#38F28D]/10 rounded-full flex items-center justify-center mb-3">⚡</div>
           <h3 className="font-bold mb-2">Instant Activation</h3>
-          <p className="text-sm text-[#A7B0AD] leading-relaxed">Once connected, Agentaria starts handling messages immediately. No additional setup required.</p>
+          <p className="text-sm text-[#A7B0AD]">Once connected, Agentaria starts handling messages immediately.</p>
         </div>
         <div className="bg-[#0D1211] border border-[#1A2321] rounded-[14px] p-6 hover:border-[#38F28D]/20 transition-colors">
           <div className="w-10 h-10 bg-[#38F28D]/10 rounded-full flex items-center justify-center mb-3">🔒</div>
           <h3 className="font-bold mb-2">Secure Connection</h3>
-          <p className="text-sm text-[#A7B0AD] leading-relaxed">Your WhatsApp data is encrypted end-to-end. We never store your messages or contacts.</p>
+          <p className="text-sm text-[#A7B0AD]">Your data is encrypted end-to-end. We never store messages.</p>
         </div>
       </div>
     </div>
