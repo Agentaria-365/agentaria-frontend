@@ -121,12 +121,12 @@ const FEATURES = [
 ];
 
 const REVIEWS = [
-  { name: 'Ahsan Tariq', role: 'Salon Owner', text: 'Got 4 Google reviews in the first week. Never happened before without asking manually.', rating: 5, avatar: 'https://i.pravatar.cc/150?img=11' },
-  { name: 'Sara Mehmood', role: 'Physio Clinic', text: 'Old clients I thought were gone are booking again. The re-opener is insane.', rating: 4, avatar: 'https://i.pravatar.cc/150?img=5' },
-  { name: 'Bilal Raza', role: 'Home Services', text: "Dashboard is clean and I get notified before the client even knows I'm there.", rating: 5, avatar: 'https://i.pravatar.cc/150?img=15' },
-  { name: 'Nadia Hussain', role: 'Aesthetic Studio', text: 'Setup took 10 minutes. The AI talks exactly like I would — clients can not tell.', rating: 5, avatar: 'https://i.pravatar.cc/150?img=9' },
-  { name: 'Usman Sheikh', role: 'Photography Studio', text: "Booked 3 shoots from re-opener in the first campaign. ROI was immediate.", rating: 4, avatar: 'https://i.pravatar.cc/150?img=33' },
-  { name: 'Fatima Malik', role: 'Skin Care Clinic', text: 'Review collection alone paid for the subscription 5x over.', rating: 5, avatar: 'https://i.pravatar.cc/150?img=1' },
+  { name: 'Sarah Jenkins', role: 'Med Spa Owner', text: 'Got 4 Google reviews in the first week. Never happened before without asking manually.', rating: 5, avatar: 'https://i.pravatar.cc/150?img=44' },
+  { name: 'Michael Brooks', role: 'Roofing Contractor', text: 'Old clients I thought were gone are booking again. The re-opener is insane.', rating: 4, avatar: 'https://i.pravatar.cc/150?img=11' },
+  { name: 'Emma Thompson', role: 'Aesthetic Clinic', text: "Dashboard is clean and I get notified before the client even knows I'm there.", rating: 5, avatar: 'https://i.pravatar.cc/150?img=5' },
+  { name: 'David Chen', role: 'Dental Practice', text: 'Setup took 10 minutes. The AI talks exactly like I would — clients can not tell.', rating: 5, avatar: 'https://i.pravatar.cc/150?img=15' },
+  { name: 'James Wilson', role: 'HVAC Services', text: "Booked 3 jobs from re-opener in the first campaign. ROI was immediate.", rating: 4, avatar: 'https://i.pravatar.cc/150?img=33' },
+  { name: 'Jessica Lawson', role: 'Boutique Salon', text: 'Review collection alone paid for the subscription 5x over.', rating: 5, avatar: 'https://i.pravatar.cc/150?img=9' },
 ];
 
 const STATS = [
