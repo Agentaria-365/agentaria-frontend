@@ -1,33 +1,43 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-// Pages Import
-import LandingPage from './components/LandingPage';
+// ─── NEW Public Pages (Marketing) ───
+import Home from './components/pages/Home';
+import Pricing from './components/pages/Pricing';
+import Academy from './components/pages/Academy';
+
+// ─── Auth Pages ───
 import LoginPage from './components/auth/LoginPage';
 import SignupPage from './components/auth/SignupPage';
 import ResetPasswordPage from './components/auth/ResetPasswordPage';
 import NewPasswordPage from './components/auth/NewPasswordPage';
+
+// ─── Dashboard Pages ───
 import DashboardLayout from './components/dashboard/DashboardLayout';
 import DashboardOverview from './components/dashboard/DashboardOverview';
 import WhatsAppConnectionPage from './components/dashboard/WhatsAppConnectionPage';
 import ChatManagementPage from './components/dashboard/ChatManagementPage2.0';
 import ClientReopenerPage from './components/dashboard/ClientReopenerPage';
-import FeedbackReviewsPage from './components/dashboard/FeedbackReviewsPage'; // ✅ Phase 4A
-import BusinessSettingsPage from './components/dashboard/BusinessSettingsPage'; // ✅ Phase 4B
-import ProfileSettingsPage from './components/dashboard/ProfileSettingsPage'; // ✅ Phase 4C
-import BillingPage from './components/dashboard/BillingPage'; // ✅ Phase 4D
+import FeedbackReviewsPage from './components/dashboard/FeedbackReviewsPage'; 
+import BusinessSettingsPage from './components/dashboard/BusinessSettingsPage'; 
+import ProfileSettingsPage from './components/dashboard/ProfileSettingsPage'; 
+import BillingPage from './components/dashboard/BillingPage'; 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Pages */}
-        <Route path="/" element={<LandingPage />} />
+        {/* ─── Naye Public Pages ─── */}
+        <Route path="/" element={<Home />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/academy" element={<Academy />} />
+
+        {/* ─── Auth Pages ─── */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/new-password" element={<NewPasswordPage />} />
 
-        {/* Dashboard Pages */}
+        {/* ─── Dashboard Pages (Aapke Purane Saare Routes) ─── */}
         <Route path="/dashboard" element={
           <DashboardLayout currentPage="dashboard">
             <DashboardOverview />
@@ -40,42 +50,36 @@ function App() {
           </DashboardLayout>
         } />
         
-        {/* Phase 2 - Chat Management */}
         <Route path="/dashboard/chats" element={
           <DashboardLayout currentPage="chats">
             <ChatManagementPage />
           </DashboardLayout>
         } />
         
-        {/* Phase 3 - Client Re-Opener */}
         <Route path="/dashboard/reopener" element={
           <DashboardLayout currentPage="reopener">
             <ClientReopenerPage />
           </DashboardLayout>
         } />
         
-        {/* ✅ Phase 4A - Feedback & Reviews */}
         <Route path="/dashboard/reviews" element={
           <DashboardLayout currentPage="reviews">
             <FeedbackReviewsPage />
           </DashboardLayout>
         } />
         
-        {/* ✅ Phase 4B - Business Settings */}
         <Route path="/dashboard/settings" element={
           <DashboardLayout currentPage="settings">
             <BusinessSettingsPage />
           </DashboardLayout>
         } />
         
-        {/* ✅ Phase 4D - Billing */}
         <Route path="/dashboard/billing" element={
           <DashboardLayout currentPage="billing">
             <BillingPage />
           </DashboardLayout>
         } />
         
-        {/* ✅ Phase 4C - Profile Settings */}
         <Route path="/dashboard/profile" element={
           <DashboardLayout currentPage="profile">
             <ProfileSettingsPage />
@@ -89,7 +93,7 @@ function App() {
   );
 }
 
-// Coming Soon Component
+// ─── Coming Soon Component (Aapka Purana Wala) ───
 const ComingSoon = ({ title, description }) => (
   <div className="max-w-[800px] mx-auto text-center py-20">
     <div className="w-24 h-24 bg-[#38F28D]/10 rounded-full flex items-center justify-center mx-auto mb-6">
