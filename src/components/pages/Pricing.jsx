@@ -32,10 +32,8 @@ const BASIC_FEATURES = [
   { icon: RefreshCw,    label: 'Client Re-Opener',        included: true  },
   { icon: ThumbsUp,     label: 'Feedback & Reviews',      included: true  },
   { icon: Bell,         label: 'Real-Time Handover Alerts',included: true  },
-  { icon: BarChart3,    label: 'Campaign Analytics',      included: false },
-  { icon: Headphones,   label: 'Priority Support',        included: false },
-  { icon: Shield,       label: 'Custom AI Personality',   included: false },
-  { icon: Building2,    label: 'Multi-number Support',    included: false },
+  { icon: BarChart3,    label: 'Campaign Analytics',      included: true  }, // ✅ Ab dono mein milega
+  { icon: Headphones,   label: 'Priority WhatsApp Support',included: false },
 ];
 
 const PRO_FEATURES = BASIC_FEATURES.map((f) => ({ ...f, included: true }));
@@ -322,13 +320,10 @@ export default function Pricing() {
       cta:       { label: 'Contact Us', route: '/#contact' },
       features:  [
         { label: 'Everything in Pro',          included: true  },
-        { label: 'Multiple WhatsApp Numbers',  included: true  },
-        { label: 'Custom AI Personality',      included: true  },
+        { label: 'Done-For-You Setup',         included: true  },
+        { label: 'Custom CRM Integrations',    included: true  },
         { label: 'Dedicated Account Manager',  included: true  },
-        { label: 'Custom Integrations',        included: true  },
-        { label: 'SLA & Uptime Guarantee',     included: true  },
-        { label: 'White-Label Option',         included: true  },
-        { label: 'Invoice Billing',            included: true  },
+        { label: 'Volume Discount for Numbers',included: true  },
       ],
     },
   ];
@@ -440,12 +435,10 @@ export default function Pricing() {
                 { label: 'Client Re-Opener (CSV)',      basic: true,  pro: true  },
                 { label: 'Feedback & Reviews',          basic: true,  pro: true  },
                 { label: 'Real-Time Handover Alerts',   basic: true,  pro: true  },
-                { label: 'Campaign Scheduling',         basic: false, pro: true  },
-                { label: 'Advanced Analytics',          basic: false, pro: true  },
-                { label: 'Custom AI Personality',       basic: false, pro: true  },
-                { label: 'Priority Support',            basic: false, pro: true  },
-                { label: 'Multi-Number Support',        basic: false, pro: false, enterprise: true },
-                { label: 'White-Label Option',          basic: false, pro: false, enterprise: true },
+                { label: 'Campaign Analytics',          basic: true,  pro: true  }, // ✅ Trial aur Pro dono mein
+                { label: 'Priority WhatsApp Support',   basic: false, pro: true  },
+                { label: 'Done-For-You Setup',          basic: false, pro: false, enterprise: true },
+                { label: 'Custom CRM Integrations',     basic: false, pro: false, enterprise: true },
               ].map((row, i) => (
                 <div
                   key={row.label}

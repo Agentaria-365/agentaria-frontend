@@ -27,15 +27,18 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
 
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="text-2xl font-bold mb-4">
-              <span className="text-[#38F28D]">Agent</span>
-              <span className="text-[#F2F5F4]">aria</span>
-            </div>
-            <p className="text-[#A7B0AD] text-sm leading-relaxed max-w-[200px]">
-              WhatsApp automation for service businesses. AI-assisted, human-first.
-            </p>
-          </div>
+      <div className="col-span-2 md:col-span-1">
+        
+        {/* NAYA LOGO (Sleek Underline) */}
+        <div className="relative text-2xl font-bold tracking-tight select-none inline-block mb-5">
+          <span className="text-[#F2F5F4]">Agentaria</span>
+          <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[#38F28D] to-transparent rounded-full shadow-[0_0_8px_rgba(56,242,141,0.5)]"></div>
+        </div>
+
+        <p className="text-[#A7B0AD] text-sm leading-relaxed max-w-[200px]">
+          WhatsApp automation for service businesses. AI-assisted, human-first.
+        </p>
+      </div>
 
           {/* Links */}
           {Object.entries(LINKS).map(([group, items]) => (
