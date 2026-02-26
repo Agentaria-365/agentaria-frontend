@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
 import {
-  MessageSquare, Users, Star, Zap, Shield, BarChart3,
-  ChevronRight, Upload, Bell, ThumbsUp, Bot, RefreshCw, CheckCircle
+  MessageSquare, Star, Zap, Shield, BarChart3,
+  ChevronRight, Bell, ThumbsUp, Bot, RefreshCw, CheckCircle
 } from 'lucide-react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
@@ -222,41 +222,54 @@ function WhatsAppMock() {
   );
 }
 
-// ─── Actual Video Player (UPDATED) ──────────────────────────────────────────────
+// ─── Actual Video Player (LAZY LOADED) ──────────────────────────────────────────────
 function VideoPlaceholder({ step }) {
   const videoNumber = parseInt(step, 10);
   const videoSrc = `/videos/step${videoNumber}.mp4`;
   
-  // Smart logic: Video sirf tab play hogi jab wo screen par aayegi
-  const videoRef = useRef(null);
-  const isInView = useInView(videoRef, { margin: "-100px" });
+  const containerRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  React.useEffect(() => {
-    if (videoRef.current) {
-      if (isInView) {
-        videoRef.current.play().catch(e => console.log("Autoplay blocked", e));
-      } else {
-        videoRef.current.pause();
-      }
+  useEffect(() => {
+    // Ye observer check karega ke video screen par aayi hai ya nahi
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsLoaded(true); // Jaise hi screen par aaye, video load karna shuru kardo
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 } // 10% hissa nazar aate hi load shuru ho jaye
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
-  }, [isInView]);
+
+    return () => {
+      if (observer) observer.disconnect();
+    };
+  }, []);
 
   return (
-    <div className="relative w-full aspect-video rounded-[18px] overflow-hidden
+    <div ref={containerRef} className="relative w-full aspect-video rounded-[18px] overflow-hidden
                     bg-[#070A0A] border border-[#1A2321]
                     group hover:border-[#38F28D]/50 transition-all duration-500 shadow-2xl flex items-center justify-center">
       
-      {/* Auto-playing Video Element */}
-      <video 
-        ref={videoRef}
-        loop 
-        muted 
-        playsInline
-        // ✅ FIX: object-cover ki jagah object-contain lagaya hai taake edges na katein
-        className="relative z-10 w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
+      {isLoaded ? (
+        <video 
+          autoPlay
+          loop 
+          muted 
+          playsInline
+          className="relative z-10 w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      ) : (
+        /* Jab tak load na ho, ek professional glowing background chalega */
+        <div className="w-full h-full animate-pulse bg-gradient-to-br from-[#1A2321] to-[#0D1211]"></div>
+      )}
     </div>
   );
 }

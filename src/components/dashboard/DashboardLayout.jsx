@@ -78,8 +78,10 @@ const DashboardLayout = ({ children, currentPage = 'dashboard' }) => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
 
-            <div className="text-2xl font-bold">
-              <span className="text-[#38F28D]">Agent</span><span className="text-[#F2F5F4]">aria</span>
+            {/* 🆕 NAYA LOGO (Sleek Underline) */}
+            <div className="relative text-xl md:text-2xl font-bold tracking-tight select-none inline-block min-w-max">
+              <span className="text-[#F2F5F4]">Agentaria</span>
+              <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[#38F28D] to-transparent rounded-full shadow-[0_0_8px_rgba(56,242,141,0.5)]"></div>
             </div>
           </div>
 
@@ -106,13 +108,22 @@ const DashboardLayout = ({ children, currentPage = 'dashboard' }) => {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
         ${isDesktopSidebarOpen ? 'lg:translate-x-0' : 'lg:-translate-x-64'}
       `}>
-        <nav className="p-4 space-y-2 h-full overflow-y-auto">
+        {/* 🆕 SCROLLBAR AUR GREEN BOX FIX */}
+        <nav className="p-4 space-y-2 h-full overflow-y-auto overflow-x-hidden pb-20 scrollbar-hide">
           {navigation.map((item) => (
             <a key={item.key} href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-[12px] transition-all duration-300 ${currentPage === item.key ? 'bg-[#0E3B2E] text-[#38F28D]' : 'text-[#A7B0AD] hover:bg-[#1A2321] hover:text-[#F2F5F4]'}`}>
+              className={`flex items-center gap-3 px-4 py-3 rounded-[12px] transition-all duration-300 w-full ${
+                currentPage === item.key ? 'bg-[#0E3B2E] text-[#38F28D]' : 'text-[#A7B0AD] hover:bg-[#1A2321] hover:text-[#F2F5F4]'
+              }`}>
               <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">{item.icon}</svg>
-              <span className="font-medium whitespace-nowrap">{item.name}</span>
-              {item.badge && <span className="ml-auto px-2 py-0.5 bg-[#38F28D] text-[#070A0A] text-xs font-bold rounded-full">{item.badge}</span>}
+              <span className="font-medium truncate">{item.name}</span>
+              
+              {/* Conditional Badge: Sirf tab nazar aayega jab user WhatsApp page par NAHI hoga */}
+              {item.badge && currentPage !== 'whatsapp' && (
+                <span className="ml-auto px-2 py-0.5 bg-[#38F28D] text-[#070A0A] text-[10px] font-bold rounded-full whitespace-nowrap">
+                  {item.badge}
+                </span>
+              )}
             </a>
           ))}
           
