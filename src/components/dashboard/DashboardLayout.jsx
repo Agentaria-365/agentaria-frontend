@@ -42,7 +42,18 @@ const DashboardLayout = ({ children, currentPage = 'dashboard' }) => {
 
     fetchUser();
   }, [navigate]);
+ 
+  // 🆕 SMART ZOOM: Sirf Dashboard ke liye size chota karega
+  useEffect(() => {
+    // Jab dashboard khulay, toh size 13.5px (zoom out) kar do
+    document.documentElement.style.fontSize = '13.5px';
 
+    // Jab user dashboard se bahar jaye (logout ya home page), toh wapas normal (16px) kar do
+    return () => {
+      document.documentElement.style.fontSize = '16px';
+    };
+  }, []);
+  
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/login');

@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  /* Default size 16px hota hai. Isey 13px karne se poori website approx 80% scale-down ho jayegi */
-  font-size: 13px; 
-}
-
 body {
   background-color: #070A0A;
   margin: 0;
