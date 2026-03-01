@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { supabase } from './config/supabase';
+import InteractiveGuide from './components/pages/InteractiveGuide'; // Path apne hisaab se adjust kar lijiyega
 
 // ─── Public / Marketing Pages ───────────────────────────────────────────────
 import Home    from './components/pages/Home';
@@ -123,6 +124,7 @@ function App() {
         <Route path="/"        element={<Home />}    />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/academy" element={<Academy />} />
+        <Route path="/academy/guide" element={<InteractiveGuide />} />
 
         {/* ── Auth ── */}
         <Route path="/login"          element={<LoginPage />}         />

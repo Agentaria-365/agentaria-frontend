@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Search, Play, Clock, BookOpen, Zap, Link2, Star,
-  ChevronRight, GraduationCap, Lock
+  ChevronRight, GraduationCap, Lock, BookMarked, ArrowRight
 } from 'lucide-react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
@@ -313,6 +314,7 @@ function VideoCard({ video, index }) {
 export default function Academy() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery]       = useState('');
+  const navigate = useNavigate();
 
   const filtered = useMemo(() => {
     return VIDEOS.filter((v) => {
@@ -382,6 +384,61 @@ export default function Academy() {
                 <p className="text-xs text-[#A7B0AD] mt-0.5">{s.label}</p>
               </div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══ INTERACTIVE GUIDE BANNER ═════════════════════════════════════════ */}
+      <section className="px-6 pb-8">
+        <div className="max-w-[1200px] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="relative overflow-hidden rounded-[20px] border border-[#1A2321]
+                       bg-[#0D1211] px-7 py-5 flex flex-col sm:flex-row items-start
+                       sm:items-center justify-between gap-5"
+          >
+            {/* Ambient glow */}
+            <div className="absolute right-0 top-0 w-[300px] h-full
+                            bg-[#38F28D]/5 blur-[70px] pointer-events-none" />
+            {/* Decorative grid */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+              style={{
+                backgroundImage: 'linear-gradient(rgba(56,242,141,1) 1px, transparent 1px), linear-gradient(90deg, rgba(56,242,141,1) 1px, transparent 1px)',
+                backgroundSize: '32px 32px',
+              }}
+            />
+
+            {/* Left — icon + copy */}
+            <div className="relative flex items-center gap-4">
+              <div className="w-11 h-11 rounded-[13px] bg-[#0E3B2E] border border-[#38F28D]/25
+                              flex items-center justify-center flex-shrink-0
+                              shadow-[0_0_18px_rgba(56,242,141,0.15)]">
+                <BookMarked size={18} className="text-[#38F28D]" />
+              </div>
+              <div>
+                <p className="text-[#F2F5F4] font-semibold text-sm leading-tight">
+                  Prefer reading? Check out our Interactive Setup Guide.
+                </p>
+                <p className="text-[#A7B0AD] text-xs mt-0.5">
+                  All 4 chapters • Step-by-step • Screenshots included
+                </p>
+              </div>
+            </div>
+
+            {/* Right — CTA button */}
+            <button
+              onClick={() => navigate('/academy/guide')}
+              className="relative flex-shrink-0 flex items-center gap-2
+                         bg-[#38F28D] text-[#070A0A] font-semibold text-sm
+                         px-5 py-2.5 rounded-[13px] whitespace-nowrap
+                         hover:scale-[1.03] hover:shadow-[0_0_22px_rgba(56,242,141,0.45)]
+                         transition-all duration-200 group"
+            >
+              Read Guide
+              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+            </button>
           </motion.div>
         </div>
       </section>

@@ -340,13 +340,13 @@ export default function Home() {
               >
                 Start 3-Day Free Trial <ChevronRight size={16} />
               </button>
+              {/* Naya Code */}
               <button
-                onClick={() => navigate('/pricing')}
-                className="border-2 border-[#1A2321] text-[#F2F5F4] px-8 py-4 rounded-[14px] font-semibold text-base
-                           hover:border-[#38F28D]/40 hover:shadow-[0_0_20px_rgba(56,242,141,0.15)]
-                           transition-all duration-300"
+                 onClick={() => navigate('/academy')}
+                 className="flex items-center justify-center gap-2 border-2 border-[#1A2321] text-[#F2F5F4] px-7 py-3.5 rounded-[14px] font-semibold text-sm hover:border-[#38F28D]/40 hover:text-[#38F28D] transition-all duration-300"
               >
-                See Pricing
+               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                See How it Works
               </button>
             </motion.div>
 
