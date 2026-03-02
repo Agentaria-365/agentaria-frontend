@@ -52,7 +52,7 @@ const LoginPage = () => {
 
       // 2. Success! Redirect to Dashboard
       console.log('Login Successful:', data);
-      navigate('/dashboard/whatsapp'); // Yahan user ko bhej rahe hain
+      navigate('/dashboard'); // Yahan user ko bhej rahe hain
       
     } catch (error) {
       console.error('Login Error:', error.message);

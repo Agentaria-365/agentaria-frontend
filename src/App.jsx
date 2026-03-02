@@ -29,14 +29,17 @@ import ProfileSettingsPage    from './components/dashboard/ProfileSettingsPage';
 import BillingPage            from './components/dashboard/BillingPage';
 
 
-// ─── Splash loader (shown while checking session) ─────────────────────────────
+// ─── Splash loader (Updated Logo) ─────────────────────────────
 const SplashLoader = () => (
   <div className="min-h-screen bg-[#070A0A] flex items-center justify-center">
-    <div className="flex flex-col items-center gap-4">
-      <div className="text-2xl font-bold">
-        <span className="text-[#38F28D]">Agent</span>
-        <span className="text-[#F2F5F4]">aria</span>
+    <div className="flex flex-col items-center gap-6">
+      {/* New Agentaria Logo */}
+      <div className="relative text-2xl font-bold tracking-tight inline-block animate-pulse">
+        <span className="text-[#F2F5F4]">Agentaria</span>
+        <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[#38F28D] to-transparent rounded-full shadow-[0_0_8px_rgba(56,242,141,0.5)]"></div>
       </div>
+      
+      {/* Loading Dots */}
       <div className="flex gap-1.5">
         {[0, 1, 2].map((i) => (
           <span
@@ -200,6 +203,17 @@ function App() {
           <DashboardGuard>
             <DashboardLayout currentPage="profile">
               <ProfileSettingsPage />
+            </DashboardLayout>
+          </DashboardGuard>
+        } />
+        
+        <Route path="/dashboard/coming-soon" element={
+          <DashboardGuard>
+            <DashboardLayout currentPage="coming-soon">
+              <ComingSoon 
+                title="Premium Feature" 
+                description="We are currently training Agentaria to handle this skill. It will be unlocked in an upcoming update!" 
+              />
             </DashboardLayout>
           </DashboardGuard>
         } />
