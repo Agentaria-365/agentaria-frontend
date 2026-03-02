@@ -590,13 +590,7 @@ export default function InteractiveGuide() {
               {SECTIONS.findIndex(s => s.id === activeId) + 1} / {SECTIONS.length} sections
             </p>
           </div>
-
-          {/* PDF link */}
-          <button className="mt-4 w-full flex items-center gap-2 text-[#A7B0AD]/60 hover:text-[#38F28D]
-                             text-[10px] transition-colors duration-150 px-1">
-            <ExternalLink size={11} />
-            Download PDF version
-          </button>
+          
         </aside>
 
         {/* ── MOBILE NAV ────────────────────────────────────────────────────────── */}

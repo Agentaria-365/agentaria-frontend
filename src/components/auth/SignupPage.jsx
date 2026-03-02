@@ -164,8 +164,15 @@ const SignupPage = () => {
   return (
     <div className="min-h-screen bg-[#070A0A] text-[#F2F5F4] flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-[500px]">
-        <div className="text-center mb-8">
-           <a href="/" className="inline-block text-3xl font-bold"><span className="text-[#38F28D]">Agent</span><span className="text-[#F2F5F4]">aria</span></a>
+        {/* Naya Premium Agentaria Logo */}
+        <div className="flex justify-center mb-8">
+          <a
+            href="/"
+            className="relative text-3xl md:text-4xl font-bold tracking-tight cursor-pointer select-none inline-block no-underline"
+          >
+            <span className="text-[#F2F5F4]">Agentaria</span>
+            <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[#38F28D] to-transparent rounded-full shadow-[0_0_8px_rgba(56,242,141,0.5)]"></div>
+          </a>
         </div>
 
         <div className="bg-[#0D1211] border border-[#1A2321] rounded-[18px] p-8 shadow-2xl">

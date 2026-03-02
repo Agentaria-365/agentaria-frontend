@@ -76,11 +76,15 @@ const LoginPage = () => {
 
       <div className="w-full max-w-[450px]">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <a href="/" className="inline-block text-3xl font-bold">
-            <span className="text-[#38F28D]">Agent</span>
-            <span className="text-[#F2F5F4]">aria</span>
-          </a>
+       {/* Naya Premium Agentaria Logo */}
+        <div className="flex justify-center mb-8">
+          <div
+            className="relative text-3xl md:text-4xl font-bold tracking-tight cursor-pointer select-none inline-block"
+            onClick={() => navigate('/')}
+          >
+            <span className="text-[#F2F5F4]">Agentaria</span>
+            <div className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[#38F28D] to-transparent rounded-full shadow-[0_0_8px_rgba(56,242,141,0.5)]"></div>
+          </div>
         </div>
 
         {/* Login Card */}
