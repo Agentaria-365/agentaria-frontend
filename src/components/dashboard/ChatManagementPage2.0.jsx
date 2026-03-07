@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../../config/supabase';
 import {
+  ArrowLeft, // ✅ Fix 1: Added ArrowLeft for mobile back button
   MessageSquare,
   Search,
   X,
@@ -153,6 +154,8 @@ const ChatManagementPage = () => {
   const [replyText, setReplyText] = useState('');
   const [sending, setSending] = useState(false);
   
+  const [showMobileChat, setShowMobileChat] = useState(false); // ✅ Fix 2: Mobile chat state added
+  
   const messagesEndRef = useRef(null);
 
   // ============================================================
@@ -218,7 +221,6 @@ const ChatManagementPage = () => {
           let uiStatus = 'open';
           if (item.status === 'human_handle' || item.status === 'handover') uiStatus = 'handover';
           if (item.status === 'closed' || item.status === 'resolved') uiStatus = 'closed';
-          // Fix: Agent status should show as Open in UI to avoid confusion
           if (item.status === 'agent') uiStatus = 'open';
 
           unified.push({
@@ -293,12 +295,10 @@ const ChatManagementPage = () => {
       unified.sort((a, b) => getLatestTimestamp(b.rawData) - getLatestTimestamp(a.rawData));
       setAllChats(unified);
 
-      // ✅ FIX 1: Robust URL Logic for Notification Clicks
       const urlId = searchParams.get('id');
-      const urlSource = searchParams.get('source') || 'rag'; // Default to 'rag' if source is missing
+      const urlSource = searchParams.get('source') || 'rag'; 
       
       if (urlId) {
-        // String conversion ensure comparison works (db id is int, url id is string)
         const target = unified.find(c => String(c.id) === String(urlId) && c.sourceTable === urlSource);
         if (target) {
           handleSelectChat(target);
@@ -344,13 +344,14 @@ const ChatManagementPage = () => {
     setSourceTable(chat.sourceTable);
     setSearchParams({ id: chat.id, source: chat.sourceTable });
     
-    // ✅ NEW LOGIC: Mark as "Read" locally so it disappears from alerts
+    // ✅ Fix 3: Show chat on mobile when selected
+    setShowMobileChat(true);
+    
     if (chat.handoverRequired || chat.status === 'handover' || chat.status === 'human_handle') {
       const seen = JSON.parse(localStorage.getItem('seenHandovers') || '[]');
       if (!seen.includes(String(chat.id))) {
         const newSeen = [...seen, String(chat.id)];
         localStorage.setItem('seenHandovers', JSON.stringify(newSeen));
-        // 🔥 Trigger event so NotificationDropdown & Dashboard update instantly
         window.dispatchEvent(new Event('handoverUpdated'));
       }
     }
@@ -545,14 +546,13 @@ const ChatManagementPage = () => {
     }
   };
 
-  // ✅ FIX 2: Handback sets status to 'agent' so n8n AI resumes
   const handleHandback = async () => {
     if (!selectedChat || sourceTable !== 'rag') return;
     
     try {
       await supabase
         .from('rag_database')
-        .update({ status: 'agent' }) // Changed from 'open' to 'agent'
+        .update({ status: 'agent' }) 
         .eq('id', selectedChat.id);
       
       setSelectedChat(prev => ({ ...prev, status: 'open', handoverRequired: false }));
@@ -682,11 +682,9 @@ const ChatManagementPage = () => {
   // ============================================================
   if (loading && allChats.length === 0) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'calc(100vh - 100px)' }}>
-        <div style={{ textAlign: 'center' }}>
-          <Loader2 size={40} style={{ color: '#38F28D', animation: 'spin 1s linear infinite' }} />
-          <p style={{ color: '#A7B0AD', marginTop: 16 }}>Loading conversations...</p>
-        </div>
+      <div className="flex flex-col items-center justify-center w-full h-[calc(100vh-100px)]">
+        <Loader2 size={40} className="text-[#38F28D] animate-spin mb-4" />
+        <p className="text-[#A7B0AD] font-medium text-sm">Loading conversations...</p>
       </div>
     );
   }
@@ -703,17 +701,8 @@ const ChatManagementPage = () => {
     }}>
       
       {/* ========== LEFT SIDEBAR ========== */}
-      <div style={{
-        width: '380px',
-        minWidth: '300px',
-        maxWidth: '400px',
-        background: '#070A0A',
-        borderRight: '1px solid #1A2321',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        overflow: 'hidden'
-      }}>
+      {/* ✅ Fix 4: Converted to Tailwind for mobile toggle */}
+      <div className={`${showMobileChat ? 'hidden md:flex' : 'flex'} flex-col h-full overflow-hidden bg-[#070A0A] border-r border-[#1A2321] w-full md:w-[380px] md:min-w-[300px] md:max-w-[400px]`}>
         
         {/* FIXED HEADER WRAPPER */}
         <div style={{ flexShrink: 0 }}> 
@@ -967,15 +956,8 @@ const ChatManagementPage = () => {
       </div>
 
       {/* ========== RIGHT PANEL - CHAT VIEW ========== */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#070A0A',
-        minWidth: 0,
-        height: '100%',
-        overflow: 'hidden'
-      }}>
+      {/* ✅ Fix 5: Converted to Tailwind for mobile toggle */}
+      <div className={`${!showMobileChat ? 'hidden md:flex' : 'flex'} flex-1 flex-col bg-[#070A0A] min-w-0 h-full overflow-hidden`}>
         {selectedChat ? (
           <>
             {/* FIXED HEADER */}
@@ -989,6 +971,15 @@ const ChatManagementPage = () => {
               flexShrink: 0
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                
+                {/* ✅ Fix 6: Mobile Back Button */}
+                <button 
+                  onClick={() => setShowMobileChat(false)}
+                  className="md:hidden flex items-center justify-center text-[#A7B0AD] hover:text-[#38F28D] transition-colors mr-1"
+                >
+                  <ArrowLeft size={22} />
+                </button>
+
                 <div style={{
                   width: '42px',
                   height: '42px',

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Search, Play, Clock, BookOpen, Zap, Link2, Star,
-  ChevronRight, GraduationCap, Lock, BookMarked, ArrowRight
+  ChevronRight, GraduationCap, BookMarked, ArrowRight
 } from 'lucide-react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
@@ -38,140 +38,108 @@ const VIDEOS = [
   // ── Getting Started ──────────────────────────────────────────────────────
   {
     id: 1,
-    title:    'Welcome to Agentaria — Platform Overview',
-    desc:     'A complete walkthrough of the dashboard, key features, and where to start.',
+    title:    'Welcome to Agentaria: Platform Overview',
+    desc:     'Understand your dashboard, live stats, and the overall workspace.',
     category: 'getting-started',
     duration: '5:12',
     level:    'Beginner',
     thumbnail: 'overview',
-    free:     true,
-    new:      true,
+    new:      false,
   },
   {
     id: 2,
-    title:    'Connect Your WhatsApp Number in 60 Seconds',
-    desc:     'Scan a QR code, verify your number, and go live immediately.',
+    title:    'The 2-Minute Setup',
+    desc:     'Learn how to complete the chat onboarding and scan your WhatsApp QR code.',
     category: 'getting-started',
     duration: '3:44',
     level:    'Beginner',
     thumbnail: 'connect',
-    free:     true,
     new:      false,
   },
   {
     id: 3,
-    title:    'Writing Your First Business Instructions',
-    desc:     'Teach the AI your services, tone, and decision rules in plain language.',
+    title:    "Uploading Your AI's Brain",
+    desc:     'How to properly format, upload, and update your business PDF in Settings.',
     category: 'getting-started',
-    duration: '6:30',
+    duration: '4:20',
     level:    'Beginner',
     thumbnail: 'instructions',
-    free:     true,
-    new:      false,
-  },
-  {
-    id: 4,
-    title:    'Understanding the Smart Inbox',
-    desc:     'Filters, handover alerts, and how to take over a live conversation.',
-    category: 'getting-started',
-    duration: '4:55',
-    level:    'Beginner',
-    thumbnail: 'inbox',
-    free:     false,
     new:      false,
   },
 
   // ── Chat Agent ───────────────────────────────────────────────────────────
   {
-    id: 5,
-    title:    'How the AI Handles Incoming Messages',
-    desc:     "Watch the agent qualify a lead from first message to handover — live walkthrough.",
+    id: 4,
+    title:    'Mastering the Smart Inbox',
+    desc:     'Navigate through the All, Open, Handover, Campaigns, and Reviews tabs.',
     category: 'chat-agent',
-    duration: '7:18',
+    duration: '6:30',
+    level:    'Beginner',
+    thumbnail: 'inbox',
+    new:      false,
+  },
+  {
+    id: 5,
+    title:    "Conversation Style & 'Human Handover",
+    desc:     'See how the Agentaria response and automatically stops at final bookings or payments and alerts you to close the deal.',
+    category: 'chat-agent',
+    duration: '5:18',
     level:    'Intermediate',
-    thumbnail: 'ai-flow',
-    free:     true,
+    thumbnail: 'handover',
     new:      false,
   },
   {
     id: 6,
-    title:    'Customising Handover Triggers',
-    desc:     'Set keywords and conditions that tell the AI when to call you in.',
+    title:    'Taking Over Chats & Handing Back',
+    desc:     "Learn how to use the 'Take Over' button to reply manually and 'Handback' to resume the AI.",
     category: 'chat-agent',
-    duration: '5:02',
+    duration: '4:55',
     level:    'Intermediate',
-    thumbnail: 'handover',
-    free:     false,
-    new:      false,
-  },
-  {
-    id: 7,
-    title:    'AI Tone & Personality Settings',
-    desc:     'Make your agent sound formal, friendly, or anywhere in between.',
-    category: 'chat-agent',
-    duration: '4:28',
-    level:    'Beginner',
-    thumbnail: 'tone',
-    free:     false,
+    thumbnail: 'ai-flow',
     new:      true,
   },
 
   // ── Advanced Bots ────────────────────────────────────────────────────────
   {
-    id: 8,
-    title:    'Client Re-Opener — Full CSV Walkthrough',
-    desc:     'Prepare, upload, validate, and launch a re-engagement campaign step by step.',
+    id: 7,
+    title:    'Client Re-Opener Campaigns',
+    desc:     'Understand the difference between Bulk AI-managed and Personalized Human-managed campaigns.',
     category: 'advanced',
-    duration: '9:05',
-    level:    'Intermediate',
+    duration: '8:05',
+    level:    'Advanced',
     thumbnail: 'csv',
-    free:     false,
     new:      false,
   },
   {
-    id: 9,
-    title:    'Scheduling Campaigns With Daily Send Limits',
-    desc:     'Avoid WhatsApp flags by spreading messages safely across days.',
+    id: 8,
+    title:    "The 'Gated' Review System",
+    desc:     'Discover how the AI asks for feedback first and only sends your review link to happy customers.',
     category: 'advanced',
-    duration: '6:41',
+    duration: '6:15',
     level:    'Advanced',
+    thumbnail: 'reviews',
+    new:      true,
+  },
+
+  // ── Integrations & Settings ───────────────────────────────────────────────
+  {
+    id: 9,
+    title:    'Managing Business Hours',
+    desc:     'Set your staff timings so the AI knows exactly when to take full control of the chats.',
+    category: 'integrations',
+    duration: '4:10',
+    level:    'Beginner',
     thumbnail: 'schedule',
-    free:     false,
     new:      false,
   },
   {
     id: 10,
-    title:    'Review Collection Strategy That Actually Works',
-    desc:     'The two-step feedback-first method that protects your brand reputation.',
-    category: 'advanced',
-    duration: '8:15',
-    level:    'Advanced',
-    thumbnail: 'reviews',
-    free:     false,
-    new:      true,
-  },
-
-  // ── Integrations ─────────────────────────────────────────────────────────
-  {
-    id: 11,
-    title:    'Connecting Agentaria to Google Reviews',
-    desc:     'Auto-send your Google review link after a positive feedback response.',
+    title:    'Profile & Security Settings',
+    desc:     'Update your personal name, business name, service phone, and account password safely.',
     category: 'integrations',
-    duration: '4:50',
-    level:    'Intermediate',
-    thumbnail: 'google',
-    free:     false,
-    new:      false,
-  },
-  {
-    id: 12,
-    title:    'n8n Workflow Automation with Agentaria',
-    desc:     'Use n8n webhooks to connect Agentaria to any third-party service.',
-    category: 'integrations',
-    duration: '11:22',
-    level:    'Advanced',
-    thumbnail: 'n8n',
-    free:     false,
+    duration: '3:30',
+    level:    'Beginner',
+    thumbnail: 'tone',
     new:      false,
   },
 ];
@@ -270,21 +238,9 @@ function VideoCard({ video, index }) {
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
-          {video.free && (
-            <span className="bg-[#38F28D] text-[#070A0A] text-[9px] font-bold px-2 py-0.5 rounded-full">
-              FREE
-            </span>
-          )}
           {video.new && (
             <span className="bg-[#0E3B2E] border border-[#38F28D]/40 text-[#38F28D] text-[9px] font-bold px-2 py-0.5 rounded-full">
               NEW
-            </span>
-          )}
-          {!video.free && (
-            <span className="bg-[#070A0A]/70 backdrop-blur-sm border border-[#1A2321]
-                             text-[#A7B0AD] text-[9px] font-medium px-2 py-0.5 rounded-full
-                             flex items-center gap-1">
-              <Lock size={8} /> Pro
             </span>
           )}
         </div>
@@ -326,10 +282,10 @@ export default function Academy() {
   }, [activeCategory, searchQuery]);
 
   const stats = [
-    { value: `${VIDEOS.length}`,   label: 'Video tutorials'    },
-    { value: `${VIDEOS.filter(v => v.free).length}`,   label: 'Free to watch' },
-    { value: '4',                  label: 'Topic categories'   },
-    { value: '60+',                label: 'Minutes of content' },
+    { value: `${VIDEOS.length}`,  label: 'Video tutorials'    },
+    { value: '100%',              label: 'Free to watch'      },
+    { value: '4',                 label: 'Topic categories'   },
+    { value: '55+',               label: 'Minutes of content' },
   ];
 
   return (
@@ -557,7 +513,7 @@ export default function Academy() {
         </div>
       </section>
 
-      {/* ══ PRO UPSELL STRIP ══════════════════════════════════════════════════ */}
+      {/* ══ START FREE TRIAL STRIP ══════════════════════════════════════════════════ */}
       <section className="px-6 pb-24">
         <div className="max-w-[1200px] mx-auto">
           <Reveal>
@@ -569,18 +525,19 @@ export default function Academy() {
 
               <div className="relative">
                 <p className="text-[#38F28D] text-xs font-bold tracking-widest uppercase mb-2">
-                  Unlock Everything
+                  Ready to Automate?
                 </p>
                 <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                  Get full access to all Pro tutorials
+                  Start your 3-day free trial today
                 </h2>
                 <p className="text-[#A7B0AD] text-sm max-w-[420px]">
-                  Upgrade to Pro and unlock every advanced guide — campaigns, integrations, automation strategies, and more.
+                  Build your digital employee in just 2 minutes. No credit card required to get started. 
                 </p>
               </div>
 
               <div className="relative flex flex-col sm:flex-row gap-3 flex-shrink-0">
                 <button
+                  onClick={() => navigate('/signup')}
                   className="bg-[#38F28D] text-[#070A0A] px-7 py-3.5 rounded-[14px] font-semibold text-sm
                              hover:scale-[1.03] hover:shadow-[0_0_28px_rgba(56,242,141,0.5)]
                              transition-all duration-300 flex items-center gap-2 whitespace-nowrap"
@@ -588,6 +545,7 @@ export default function Academy() {
                   Start Free Trial <ChevronRight size={15} />
                 </button>
                 <button
+                   onClick={() => navigate('/pricing')}
                   className="border-2 border-[#1A2321] text-[#A7B0AD] px-7 py-3.5 rounded-[14px]
                              font-semibold text-sm hover:border-[#38F28D]/30 hover:text-[#F2F5F4]
                              transition-all duration-300 whitespace-nowrap"

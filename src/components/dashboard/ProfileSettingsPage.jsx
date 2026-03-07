@@ -391,13 +391,13 @@ const ProfileSettingsPage = () => {
           </div>
 
           {/* User Info */}
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-[#F2F5F4] mb-1">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-2xl font-bold text-[#F2F5F4] mb-1 truncate">
               {profile.subscriber_name || 'User'}
             </h2>
             <p className="text-[#A7B0AD] flex items-center gap-2 mb-2">
-              <Mail className="w-4 h-4" />
-              {userEmail}
+              <Mail className="w-4 h-4 flex-shrink-0" />
+              <span className="truncate">{userEmail}</span>
             </p>
             <div className="flex items-center gap-4 text-sm">
               <span className="text-[#A7B0AD] flex items-center gap-1">
@@ -486,7 +486,7 @@ const ProfileSettingsPage = () => {
               Email Address
               <span className="text-xs text-[#A7B0AD] font-normal">(Cannot be changed)</span>
             </label>
-            <div className="bg-[#070A0A] border border-[#1A2321] rounded-[12px] px-4 py-3 text-[#A7B0AD] cursor-not-allowed">
+            <div className="bg-[#070A0A] border border-[#1A2321] rounded-[12px] px-4 py-3 text-[#A7B0AD] cursor-not-allowed truncate">
               {userEmail}
             </div>
           </div>

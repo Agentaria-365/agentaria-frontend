@@ -522,8 +522,8 @@ export default function InteractiveGuide() {
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-6 py-10 flex gap-10 items-start">
-
+      <div className="max-w-[1200px] mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10 items-start">
+        
         {/* ── LEFT SIDEBAR ─────────────────────────────────────────────────────── */}
         <aside className="w-[230px] flex-shrink-0 sticky top-[120px] hidden lg:block">
 

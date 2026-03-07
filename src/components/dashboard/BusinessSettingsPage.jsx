@@ -756,10 +756,11 @@ const BusinessSettingsPage = () => {
                     dayData.isOpen ? 'border-[#38F28D]/30' : 'border-[#1A2321]'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
+                  {/* ✅ MOBILE FIX: Added flex-col for mobile, flex-row for desktop */}
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     {/* Day Name & Toggle */}
                     <div className="flex items-center gap-4">
-                      <div className="w-24">
+                      <div className="w-24 flex-shrink-0">
                         <p className="text-[#F2F5F4] font-medium">{day.label}</p>
                       </div>
                       
