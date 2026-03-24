@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
-  Search, Play, Clock, BookOpen, Zap, Link2, Star,
-  ChevronRight, GraduationCap, BookMarked, ArrowRight
+  Search, Play, PlayCircle, Clock, BookOpen, Zap, Link2, Star,
+  ChevronRight, GraduationCap, BookMarked, ArrowRight, X
 } from 'lucide-react';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
@@ -41,9 +41,10 @@ const VIDEOS = [
     title:    'Welcome to Agentaria: Platform Overview',
     desc:     'Understand your dashboard, live stats, and the overall workspace.',
     category: 'getting-started',
-    duration: '5:12',
+    duration: '2:05',
     level:    'Beginner',
     thumbnail: 'overview',
+    youtubeId: 'tCyBdNKbuBE',
     new:      false,
   },
   {
@@ -51,19 +52,21 @@ const VIDEOS = [
     title:    'The 2-Minute Setup',
     desc:     'Learn how to complete the chat onboarding and scan your WhatsApp QR code.',
     category: 'getting-started',
-    duration: '3:44',
+    duration: '2:29',
     level:    'Beginner',
     thumbnail: 'connect',
+    youtubeId: 'kmOKf2d_HII',
     new:      false,
   },
   {
     id: 3,
-    title:    "Uploading Your AI's Brain",
+    title:    "Uploading Your Agentaria's Brain",
     desc:     'How to properly format, upload, and update your business PDF in Settings.',
     category: 'getting-started',
-    duration: '4:20',
+    duration: '1:50',
     level:    'Beginner',
     thumbnail: 'instructions',
+    youtubeId: 'V7_GaReZWik',
     new:      false,
   },
 
@@ -73,19 +76,21 @@ const VIDEOS = [
     title:    'Mastering the Smart Inbox',
     desc:     'Navigate through the All, Open, Handover, Campaigns, and Reviews tabs.',
     category: 'chat-agent',
-    duration: '6:30',
+    duration: '1:57',
     level:    'Beginner',
     thumbnail: 'inbox',
+    youtubeId: 'txcKolVioz0',
     new:      false,
   },
   {
     id: 5,
-    title:    "Conversation Style & 'Human Handover",
+    title:    "Conversation Style & 'Human Handover'",
     desc:     'See how the Agentaria response and automatically stops at final bookings or payments and alerts you to close the deal.',
     category: 'chat-agent',
-    duration: '5:18',
+    duration: '4:47',
     level:    'Intermediate',
     thumbnail: 'handover',
+    youtubeId: 'BjW1mUrFAYY',
     new:      false,
   },
   {
@@ -93,9 +98,10 @@ const VIDEOS = [
     title:    'Taking Over Chats & Handing Back',
     desc:     "Learn how to use the 'Take Over' button to reply manually and 'Handback' to resume the AI.",
     category: 'chat-agent',
-    duration: '4:55',
+    duration: '3:05',
     level:    'Intermediate',
     thumbnail: 'ai-flow',
+    youtubeId: 'aljPPAYFDVg',
     new:      true,
   },
 
@@ -105,9 +111,10 @@ const VIDEOS = [
     title:    'Client Re-Opener Campaigns',
     desc:     'Understand the difference between Bulk AI-managed and Personalized Human-managed campaigns.',
     category: 'advanced',
-    duration: '8:05',
+    duration: '14:34',
     level:    'Advanced',
     thumbnail: 'csv',
+    youtubeId: 'ymbtjSmRdgs',
     new:      false,
   },
   {
@@ -115,9 +122,10 @@ const VIDEOS = [
     title:    "The 'Gated' Review System",
     desc:     'Discover how the AI asks for feedback first and only sends your review link to happy customers.',
     category: 'advanced',
-    duration: '6:15',
+    duration: '15:37',
     level:    'Advanced',
     thumbnail: 'reviews',
+    youtubeId: 'CzuHlx0luU0',
     new:      true,
   },
 
@@ -127,9 +135,10 @@ const VIDEOS = [
     title:    'Managing Business Hours',
     desc:     'Set your staff timings so the AI knows exactly when to take full control of the chats.',
     category: 'integrations',
-    duration: '4:10',
+    duration: '3:19',
     level:    'Beginner',
     thumbnail: 'schedule',
+    youtubeId: 'xxorFifSOsk',
     new:      false,
   },
   {
@@ -137,9 +146,10 @@ const VIDEOS = [
     title:    'Profile & Security Settings',
     desc:     'Update your personal name, business name, service phone, and account password safely.',
     category: 'integrations',
-    duration: '3:30',
+    duration: '1:56',
     level:    'Beginner',
     thumbnail: 'tone',
+    youtubeId: 'ytJuE6RlDW0',
     new:      false,
   },
 ];
@@ -167,7 +177,7 @@ const LEVEL_COLOR = {
 };
 
 // ─── Video Card ───────────────────────────────────────────────────────────────
-function VideoCard({ video, index }) {
+function VideoCard({ video, index, onPlay }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-50px' });
   const [hovered, setHovered] = useState(false);
@@ -180,6 +190,7 @@ function VideoCard({ video, index }) {
       transition={{ duration: 0.55, delay: (index % 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
+      onClick={() => onPlay(video)}
       className="flex flex-col bg-[#0D1211] border border-[#1A2321] rounded-[18px] overflow-hidden
                  hover:border-[#38F28D]/25 hover:-translate-y-1.5
                  hover:shadow-[0_12px_48px_rgba(56,242,141,0.08)]
@@ -201,7 +212,7 @@ function VideoCard({ video, index }) {
           <div className="w-16 h-16 rounded-2xl bg-[#0E3B2E]/70 border border-[#38F28D]/20
                           flex items-center justify-center
                           group-hover:scale-90 transition-transform duration-300">
-            <BookOpen size={22} className="text-[#38F28D]/60" />
+            <PlayCircle size={24} className="text-[#38F28D]/60" strokeWidth={1.5} />
           </div>
         </div>
 
@@ -270,7 +281,18 @@ function VideoCard({ video, index }) {
 export default function Academy() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery]       = useState('');
+  const [selectedVideo, setSelectedVideo]   = useState(null); // Nayi State Modal ke liye
   const navigate = useNavigate();
+
+  // Scroll lock jab video chal rahi ho
+  useEffect(() => {
+    if (selectedVideo) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [selectedVideo]);
 
   const filtered = useMemo(() => {
     return VIDEOS.filter((v) => {
@@ -285,7 +307,7 @@ export default function Academy() {
     { value: `${VIDEOS.length}`,  label: 'Video tutorials'    },
     { value: '100%',              label: 'Free to watch'      },
     { value: '4',                 label: 'Topic categories'   },
-    { value: '55+',               label: 'Minutes of content' },
+    { value: '50+',               label: 'Minutes of content' },
   ];
 
   return (
@@ -484,7 +506,7 @@ export default function Academy() {
                 className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
               >
                 {filtered.map((video, i) => (
-                  <VideoCard key={video.id} video={video} index={i} />
+                  <VideoCard key={video.id} video={video} index={i} onPlay={setSelectedVideo} />
                 ))}
               </motion.div>
             ) : (
@@ -559,6 +581,50 @@ export default function Academy() {
       </section>
 
       <Footer />
+
+      {/* ══ CINEMATIC VIDEO MODAL ══════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-[#070A0A]/90 backdrop-blur-md"
+            onClick={() => setSelectedVideo(null)}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedVideo(null)}
+              className="absolute top-6 right-6 z-[60] p-2.5 bg-[#0D1211] border border-[#1A2321] text-[#F2F5F4] 
+                         rounded-full hover:bg-[#1A2321] hover:text-[#38F28D] transition-all"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Video Container */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-[1000px] aspect-video bg-black rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-[#1A2321]"
+              onClick={(e) => e.stopPropagation()} 
+            >
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                title={selectedVideo.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              ></iframe>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -47,7 +47,7 @@ const HOW_IT_WORKS = [
   },
   {
     step: '02',
-    title: 'Configure Your AI Agent',
+    title: 'Configure Your Agentaria',
     desc: 'Tell the AI about your business in plain language. Opening lines, services offered, tone — all customised to your brand.',
     icon: Bot,
     video: true,
@@ -168,7 +168,7 @@ function WhatsAppMock() {
           </div>
           <div>
             <p className="text-[#F2F5F4] text-xs font-semibold">SkinGlow Studio</p>
-            <p className="text-[#38F28D] text-[10px]">● AI Agent Active</p>
+            <p className="text-[#38F28D] text-[10px]">● Agentaria Active</p>
           </div>
         </div>
 
@@ -189,7 +189,7 @@ function WhatsAppMock() {
                 : 'bg-[#1A2321]'
               } rounded-[12px] px-3 py-2`}>
                 {m.ai && (
-                  <span className="text-[#38F28D] text-[9px] font-semibold block mb-0.5">🤖 AI Agent</span>
+                  <span className="text-[#38F28D] text-[9px] font-semibold block mb-0.5">🤖 Agentaria</span>
                 )}
                 <p className="text-[#F2F5F4] text-[11px] leading-relaxed">{m.text}</p>
                 <p className="text-[#A7B0AD] text-[9px] mt-1 text-right">{m.time}</p>

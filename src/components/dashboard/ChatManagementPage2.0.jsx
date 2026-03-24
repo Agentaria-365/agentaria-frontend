@@ -1129,7 +1129,7 @@ const ChatManagementPage = () => {
                               gap: '4px'
                             }}>
                               {isAI ? <Bot size={10} /> : <User size={10} />}
-                              {isAI ? 'AI Agent' : 'You'}
+                              {isAI ? 'Agentaria' : 'You'}
                             </span>
                           </div>
                         )}
